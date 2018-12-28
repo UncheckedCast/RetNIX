@@ -1,5 +1,7 @@
-void kmain() {
-	
-	// kmain may never return
-	while (true) {};
+void kmain()
+{     
+     // kmain may never return
+     while (true){
+	  
+     };
 }
