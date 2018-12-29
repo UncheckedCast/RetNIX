@@ -1,34 +1,38 @@
 [BITS 16]
 [ORG 0x7C00]
 
-boot: ; Set up segments and stack
-	mov ax, 0
-	mov ds, ax
-	mov es, ax
-	mov ss, ax
-	mov sp, 0x7c00
+.global kmain
 
-	call mainLoop
+boot: ; Set up segments and stack
+    mov ax, 0
+    mov ds, ax
+    mov es, ax
+    mov ss, ax
+    mov sp, 0x7c00
+
+    call mainLoop
 
 mainLoop:
-	mov si, msg
-	call printString
-	hlt
-	jmp mainLoop
+    mov si, msg
+    call printString
+    call kmain
+    cli
+    hlt
+    ;jmp mainLoop
 
 printString:
-	lodsb
+    lodsb
 
-	or al, al
-	jz printDone
+    or al, al
+    jz printDone
 
-	mov ah, 0x0e
-	int 0x10
+    mov ah, 0x0e
+    int 0x10
 
-	jmp printString
+    jmp printString
 	
-	printDone:
-		ret
+    printDone:
+        ret
 
 msg db "Booting RetNIX...", 0x00
 
