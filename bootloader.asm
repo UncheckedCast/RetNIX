@@ -1,9 +1,9 @@
-[BITS 16]
-[ORG 0x7C00]
+[org 0x7C00]
+[bits 16]
 
-.global kmain
+OFFSET: equ 0x7E00
 
-boot: ; Set up segments and stack
+__start: ; Set up segments and stack
     mov ax, 0
     mov ds, ax
     mov es, ax
@@ -15,7 +15,9 @@ boot: ; Set up segments and stack
 mainLoop:
     mov si, msg
     call printString
-    call kmain
+    mov bx, OFFSET
+    mov dh, 15
+    mov dl, 0 ;; Boot drive
     cli
     hlt
     ;jmp mainLoop
@@ -34,7 +36,35 @@ printString:
     printDone:
         ret
 
-msg db "Booting RetNIX...", 0x00
+diskRead:
+    pusha
+    push dx
+
+    ;; Read disk
+    mov ah, 0x02
+    mov al, dh
+    mov ch, 0x00
+    mov cl, 0x02
+    int 0x13
+
+    ;; Print error if present
+    jc diskReadErr
+
+    ;;Check sector count
+    pop dx
+    cmp dh, al
+    jne diskReadErr
+
+    popa
+    ret
+
+diskReadErr:
+    mov si, DISK_READ_ERRMSG
+    call printString
+    hlt
+
+msg db "Booting RetNIX...", 0x0D, 0x0A, 0x00
+DISK_READ_ERRMSG db "Disk read error.", 0x0D, 0x0A, 0x00
 
 pad: ; Pad with zeroes and append signature
 	times 510-($-$$) db 0
