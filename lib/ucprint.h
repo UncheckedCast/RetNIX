@@ -1,4 +1,6 @@
 #ifndef ucprint
 #define ucprint
-void ucprint(char[])
+
+extern void printstring(void);
+void ucprint(char out[]);
 #endif
