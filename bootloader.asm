@@ -1,27 +1,28 @@
 [org 0x7C00]
 [bits 16]
 
-OFFSET: equ 0x7E00
+OFFSET: equ 0x0
 
 __start: ; Set up segments and stack
     mov ax, 0
     mov ds, ax
     mov es, ax
     mov ss, ax
-    mov sp, 0x7c00
+    mov sp, 0xf000
 
     call mainLoop
 
 mainLoop:
     mov si, msg
     call printString
-    mov bx, OFFSET
-    mov dh, 15
+    mov dh, 0
     mov dl, 0 ;; Boot drive
-    cli
-    hlt
+    jmp OFFSET
+    ;cli
+    ;hlt
     ;jmp mainLoop
 
+global printString
 printString:
     lodsb
 
@@ -45,6 +46,7 @@ diskRead:
     mov al, dh
     mov ch, 0x00
     mov cl, 0x02
+    mov bx, OFFSET
     int 0x13
 
     ;; Print error if present
@@ -65,6 +67,7 @@ diskReadErr:
 
 msg db "Booting RetNIX...", 0x0D, 0x0A, 0x00
 DISK_READ_ERRMSG db "Disk read error.", 0x0D, 0x0A, 0x00
+
 
 pad: ; Pad with zeroes and append signature
 	times 510-($-$$) db 0

@@ -1,9 +1,9 @@
-#include "RetKernel.h"
-
+#include "../lib/RetKernel.h"
+#include "../lib/ucprint.h"
 void kmain()
 {     
      // kmain may never return
-     while (true){
+     while (1){
 	  ucprint("This OS was made by the UncheckedCast gang");
      };
 }
