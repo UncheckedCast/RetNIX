@@ -1,7 +1,11 @@
 #include "ucprint.h"
 
-void ucprint(char out[])
+extern void printChar(char c);    
+#pragma aux printChar parm[ax] modify[ax] = "call printChar";
+void ucprint(char* out)
 {
-     __asm__("msg db %1, 0x00" :: "a" (out));
-     printstring();
+     int i = 0;
+     while(out[i] != 0){
+	  printChar(out[i++]);
+     }
 }
