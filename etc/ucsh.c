@@ -5,16 +5,19 @@
 
 void shell()
 {
-     char in[256];
-     while (1){
+     while(1){
+	  char in[256];
 	  int i = 0;
 	  int part = 0;
 	  char cmd[12]; // TODO: Replace with malloc
 	  int z = 0;
-	  in[i] = readKey();
-	  ucprint(in[i]);
-	  if (in[i] == '(')
-	       part = i;
+	  while (in[i] != '\r'){
+	       in[i] = readKey();
+	       ucprint(in[i]);
+	       if (in[i] == '(')
+		    part = i;
+	  }
+	  ucprint("\r\l");
 	  for (; z < part; z++)
 	       cmd[z] = in[z];
 	  if (chkCmd(cmd,part)){
