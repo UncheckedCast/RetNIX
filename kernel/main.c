@@ -6,7 +6,7 @@ void kmain()
 {     
      // kmain may never return
   
-     retnit();
+     retinit();
      
      while (1){
 	  ucprint("This OS was made by the UncheckedCast gang");

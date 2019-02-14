@@ -3,7 +3,7 @@
 
 void shell()
 {
-     char cmd = char[256];
+     char* cmd = char[256];
      while (1){
 	  int i = 0;
 	  int part = 0;
