@@ -1,10 +1,16 @@
-main.o : kernel/main.c
-	wcc -s -0
-ucprint.o : lib/ucprint.c
-	wcc -s -0
-readkey.o : lib/readkey.c
-	wcc -s -0
-retnit.o : etc/retnit.c
-	wcc -s -0
-printchar.obj : lib/printchar.asm
-	nasm -f obj
+CC=wcc
+CFLAGS=-s -0 -i="./;./lib;./kernel;./etc"
+NASM=nasm
+ASMFLAGS=-f obj
+
+OBJ = kernel/main.c
+DEPS = lib/ucprint.o lib/readkey.o etc/retnit.o lib/printchar.obj
+
+o: $(DEPS)
+	$(CC) -fo=$@ $(CFLAGS) $<
+
+.asm.obj: $(DEPS)
+	$(NASM) $@ $(ASMFLAGS)
+
+all: .symbolic $(OBJ)
+	$(CC) -fo=$@ $(CFLAGS) $<
