@@ -1,0 +1,13 @@
+ name kernel.bin                  # name of resulting binary
+ output raw                       # type of binary (ELF, PE, MZ, PharLap, ...)
+    offset=0               # skip first meg; base address of binary
+# file bootloader2.o                 # objects to link - this one has to be first
+ file lib/ucprint.o
+ file lib/readkey.o
+ file lib/printchar.obj
+ file etc/retnit.o
+ file kernel/main.o
+ # add more obj files here
+ order                            # in which order should segments be put into binary
+    clname CODE offset=0x0   # offset for reference fixups
+    clname DATA
