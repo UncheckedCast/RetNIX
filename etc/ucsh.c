@@ -1,6 +1,8 @@
 #include "../lib/retlibc.h"
 #include "ucsh.h"
 
+//#pragma aux 
+
 void shell()
 {
      char in[256];
@@ -10,6 +12,7 @@ void shell()
 	  char cmd[12]; // TODO: Replace with malloc
 	  int z = 0;
 	  in[i] = readKey();
+	  ucprint(in[i]);
 	  if (in[i] == '(')
 	       part = i;
 	  for (; z < part; z++)
