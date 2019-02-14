@@ -4,13 +4,14 @@ NASM=nasm
 ASMFLAGS=-f obj
 
 OBJ = kernel/main.c
-DEPS = lib/ucprint.o lib/readkey.o etc/retnit.o lib/printchar.obj
+DEPS = lib/ucprint.c lib/readkey.c etc/retnit.c
+ASMDEPS = lib/printchar.asm
 
-o: $(DEPS)
-	$(CC) -fo=$@ $(CFLAGS) $<
+%.c: $(DEPS)
+	$(CC) -fo=$@.o $(CFLAGS) $@
 
-.asm.obj: $(DEPS)
-	$(NASM) $@ $(ASMFLAGS)
+%.asm: $(ASMDEPS)
+	$(NASM) $@.asm $(ASMFLAGS)
 
 all: .symbolic $(OBJ)
 	$(CC) -fo=$@ $(CFLAGS) $<
