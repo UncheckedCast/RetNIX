@@ -1,7 +1,7 @@
 #include "retkernel.h"
 #include "../lib/retlibc.h"
 #include "../etc/retnit.h"
-#include "../etc/usch.h"
+//#include "../etc/ucsh.h"
 void kmain()
 {     
      // kmain may never return
