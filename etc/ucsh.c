@@ -3,34 +3,36 @@
 
 void shell()
 {
-     char* cmd = char[256];
+     char in[256];
      while (1){
 	  int i = 0;
 	  int part = 0;
-	  while(cmd[i]!= '\r'){
-	       cmd[i] = readKey();
-	       if (cmd[i] == '(')
-		    part = i;
-	  }
-	  char temp = char[part];
-	  memcpy(temp,&cmd[256], part);
-	  if (chkCmd(temp)+1){
-	       char toprint = char[i - part - 2];
-	       u = 0;
-	       for(; u < (i-2), u++)
-		    toprint[u] = cmd[u];
+	  char cmd[12]; // TODO: Replace with malloc
+	  int z = 0;
+	  in[i] = readKey();
+	  if (in[i] == '(')
+	       part = i;
+	  for (; z < part; z++)
+	       cmd[z] = in[z];
+	  if (chkCmd(cmd,part)){
+	       char toprint[5];
+	       int u = part+2;
+	       for(; u < (i-2); u++){
+		    toprint[u] = in[u];
+	       }
 	       ucprint(toprint);
 	  }
      }
 }
 
-int chkCmd(char* cmd,int end)
+int chkCmd(char* cmd, int end)
 {
-     char commandList = "print"
+     char commandList[] = "print";
      int i = 0;
      for(; i < end; i++){
-	  if(cmd[i] != commandList[i])
-	       return -1;
+	  if(cmd[i] != commandList[i]){
+	       return 0;
+	  }
      }
-     return 0
+     return 1;
 }
