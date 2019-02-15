@@ -1,17 +1,25 @@
-CC=wcc
-CFLAGS=-s -0 -i="./;./lib;./kernel;./etc"
+CC=owcc
+CFLAGS=-s -march=i86 -I="./;./lib;./kernel;./etc"
 NASM=nasm
 ASMFLAGS=-f obj
+WLINK = wlink
+WLFLAGS = @linkerscript.lnk
 
-OBJ = kernel/main.c
-DEPS = lib/ucprint.c lib/readkey.c etc/retnit.c
-ASMDEPS = lib/printchar.asm
+OBJS = kernel/main.o lib/ucprint.o lib/readkey.o etc/retnit.o lib/printchar.obj etc/ucsh.o
+DEPS = kernel/retkernel.h lib/readkey.h lib/retlibc.h lib/ucprint.h etc/retnit.h etc/ucsh.h
 
-%.c: $(DEPS)
-	$(CC) -fo=$@.o $(CFLAGS) $@
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
-%.asm: $(ASMDEPS)
-	$(NASM) $@.asm $(ASMFLAGS)
+%.obj: %.asm $(DEPS)
+	$(NASM) $*.asm $(ASMFLAGS)
 
-all: .symbolic $(OBJ)
-	$(CC) -fo=$@ $(CFLAGS) $<
+.PHONY kernel:
+
+kernel: $(OBJS)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+.PHONY clean:
+
+clean:
+	rm -f */*.o
