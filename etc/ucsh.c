@@ -1,8 +1,6 @@
 #include "../lib/retlibc.h"
 #include "ucsh.h"
 
-//#pragma aux 
-
 void shell()
 {
      while(1){
@@ -13,26 +11,21 @@ void shell()
 	  int z = 0;
 	  while (in[i] != '\r'){
 	       in[i] = readKey();
-	       ucprint(in[i]);
+	       ucprint(&in[i]);
 	       if (in[i] == '(')
 		    part = i;
 	  }
 	  ucprint("\r\l");
 	  for (; z < part; z++)
 	       cmd[z] = in[z];
-	  if (chkCmd(cmd,part)){
-	       char toprint[5];
-	       int u = part+2;
-	       for(; u < (i-2); u++){
-		    toprint[u] = in[u];
-	       }
-	       ucprint(toprint);
-	  }
+	  runCmd(cmd,in,part);
      }
 }
 
-int chkCmd(char* cmd, int end)
+int runCmd(char* cmd, char* in, int end)
 {
+     char toprint[20];
+     int u = end+2;
      char commandList[] = "print";
      int i = 0;
      for(; i < end; i++){
@@ -40,5 +33,9 @@ int chkCmd(char* cmd, int end)
 	       return 0;
 	  }
      }
+     for(; u < (i-2); u++){
+	  toprint[u] = in[u];
+     }
+     ucprint(toprint);
      return 1;
 }
