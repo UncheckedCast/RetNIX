@@ -1,7 +1,7 @@
 //RetNIX impletation of malloc
 #includes "malloc.h"
 
-void *endpoint = 0x10000;
+void *endpoint = 0x1000; //TODO: Change to actual value
 
 void setep(const *void point)
 {
