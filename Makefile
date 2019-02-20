@@ -1,5 +1,5 @@
 CC=owcc
-CFLAGS=-s -march=i86 -I="./;./lib;./kernel;./etc"
+CFLAGS=-mmodel=f -fno-stack-check -fnostdlib -s -l linkerscript.lnk -march=i86 -I="./;./lib;./kernel;./etc"
 NASM=nasm
 ASMFLAGS=-f obj
 WLINK = wlink
@@ -14,9 +14,9 @@ DEPS = kernel/retkernel.h lib/readkey.h lib/retlibc.h lib/ucprint.h etc/retnit.h
 %.obj: %.asm $(DEPS)
 	$(NASM) $*.asm $(ASMFLAGS)
 
-.PHONY kernel:
+.PHONY retnix:
 
-kernel: $(OBJS)
+retnix: $(OBJS)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY clean:
