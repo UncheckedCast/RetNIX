@@ -1,10 +1,16 @@
 //RetNIX impletation of malloc
+#includes "malloc.h"
 
-struct mem_table{
-     //here goes memory allocation structure
+void *endpoint = 0x10000;
+
+void setep(const *void point)
+{
+     endpoint = point;
 }
 
-void* malloc()
+void* malloc(const int n)
 {
-     
+     *void temp = endpoint;
+     endpoint = enpoint + n;
+     return temp;
 }
