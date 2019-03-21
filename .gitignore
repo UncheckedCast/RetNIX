@@ -54,3 +54,9 @@ dkms.conf
 #Vim stuff
 *.*~
 *.swp
+
+#Other
+*.img
+bootdummy*
+bootloader
+*.err
